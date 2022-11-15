@@ -143,6 +143,10 @@
                     else
                         Todo.PrintTodoList(1,verbose: false);
                 }
+                else if (MyIO.Equals(command, "beskrivning"))
+                {
+                    Todo.PrintTodoList(1, verbose: true);
+                }
                 else
                 {
                     Console.WriteLine($"Okänt kommando: {command}");

@@ -20,15 +20,15 @@ OBS. se till att det blir rätt format!!! spara en kopia av todo.lis..KLAR!!!!
 metod som anropas via kommando promten(ladda)!!  KLAR!!!!
 
 - Metod aktivera, klara, vänta / uppgift =  Gör en metod som kan ändra status på uppgifterna som finns 
-i Todo.lis....ISH KLAR!!!! Eller har löst det på ett annat sätt tillsvidare!!
+i Todo.lis....KLAR!!!!
 
 Prio 2
 
-- Metod ny / uppgift = skapa en ny uppgift med namnet /uppgift/
+- Metod ny / uppgift = skapa en ny uppgift med namnet /uppgift/ NYI
 
-- Metod redigera / uppgift = redigera en uppgift med namnet /uppgift/
+- Metod redigera / uppgift = redigera en uppgift med namnet /uppgift/ NYI
 
-- Metod kopiera / uppgift = redigera en uppgift med namnet /uppgift/ till namnet
+- Metod kopiera / uppgift = redigera en uppgift med namnet /uppgift/ till namnet NYI
 
 - Metod beskriv / allt = lista alla uppgifter (oavsett status), status, prioritet, namn och beskrivning
 Lägg till ett HasArgument "allt" och kalla på printmetod...KLAR!!!

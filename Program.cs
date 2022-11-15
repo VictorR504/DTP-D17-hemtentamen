@@ -111,18 +111,18 @@
         public static void PrintHelp()
         {
             Console.WriteLine("Kommandon:");
-            Console.WriteLine("hjälp          lista denna hjälp");
-            Console.WriteLine("ladda          laddar att-göra-listan");
-            Console.WriteLine("spara          sparar att-göra-listan till laddad fil");
-            Console.WriteLine("ny             skapar en ny uppgift i att-göra-listan");
-            Console.WriteLine("lista          lista att-göra-listan (Aktiva prio 1 uppgifter) ");
-            Console.WriteLine("lista allt     lista att-göra-listan (Aktiva uppgifter) ");
-            Console.WriteLine("beskriv        lista att-göra-listan med beskrivning (Akiva prio 1 uppgifter) ");
-            Console.WriteLine("beskriv allt   lista att-göra-listan med beskrivning (Akiva prio 1 uppgifter) ");
-            Console.WriteLine("aktivera       ändrar status på önskad uppgift ");
-            Console.WriteLine("vänta          ändrar status på önskad uppgift ");
-            Console.WriteLine("klar           ändrar status på önskad uppgift");
-            Console.WriteLine("sluta          spara att-göra-listan och sluta");
+            Console.WriteLine("hjälp              lista denna hjälp");
+            Console.WriteLine("ladda              laddar att-göra-listan");
+            Console.WriteLine("spara              sparar att-göra-listan till laddad fil");
+            Console.WriteLine("ny                 skapar en ny uppgift i att-göra-listan");
+            Console.WriteLine("lista              lista att-göra-listan (Aktiva prio 1 uppgifter) ");
+            Console.WriteLine("lista /allt        lista att-göra-listan (Aktiva uppgifter) ");
+            Console.WriteLine("beskriv            lista att-göra-listan med beskrivning (Akiva prio 1 uppgifter) ");
+            Console.WriteLine("beskriv /allt      lista att-göra-listan med beskrivning (Akiva prio 1 uppgifter) ");
+            Console.WriteLine("aktivera /uppgift  ändrar status på önskad uppgift(uppgift = namn)");
+            Console.WriteLine("vänta /uppgift     ändrar status på önskad uppgift(uppgift = namn) ");
+            Console.WriteLine("klar /uppgift      ändrar status på önskad uppgift(uppgift = namn)");
+            Console.WriteLine("sluta              spara att-göra-listan och sluta");
         }
         public static void NewItem()
         {
@@ -172,13 +172,9 @@
             {
                 command = MyIO.ReadCommand("> ");
                 if (MyIO.Equals(command, "hjälp"))
-                {
                     Todo.PrintHelp();
-                }
                 else if (MyIO.Equals(command, "ladda"))
-                {
                     Todo.ReadListFromFile();
-                }
                 else if (MyIO.Equals(command, "sluta"))
                 {
                     Console.WriteLine("Hej då!");
@@ -199,28 +195,13 @@
                         Todo.PrintTodoList(1, verbose: true);
                 }
                 else if (MyIO.Equals(command, "ny"))
-                {
                     Todo.NewItem();
-                }
                 else if (MyIO.Equals(command, "aktivera"))
-                {
-                    Console.Write("Ange vilken uppgift som ska aktiveras:>");
-                    string input = Console.ReadLine();
-                    Todo.ChangeStatusOnItem(input,1);
-                    
-                }
+                    MyIO.ActiveWatingReady(command);
                 else if (MyIO.Equals(command, "klar"))
-                {
-                    Console.Write("Ange vilken uppgift som ska aktiveras:>");
-                    string input = Console.ReadLine();
-                    Todo.ChangeStatusOnItem(input, 3);
-                }
+                    MyIO.ActiveWatingReady(command);
                 else if (MyIO.Equals(command, "vänta"))
-                {
-                    Console.Write("Ange vilken uppgift som ska aktiveras:>");
-                    string input = Console.ReadLine();
-                    Todo.ChangeStatusOnItem(input, 2);
-                }
+                    MyIO.ActiveWatingReady(command);
                 else if (MyIO.Equals(command, "spara"))
                 {
                     Todo.SaveListToFile();
@@ -233,7 +214,6 @@
             while (true);
         }
     }
-    // Denna behöver vi inte röra under Tentan....
     class MyIO
     {
         static public string ReadCommand(string prompt)
@@ -264,18 +244,36 @@
             }
             return false;
         }
-        static public bool HasTwoArgument(string rawCommand, string expected, string expected2)
+        static public bool ActiveWatingReady(string rawCommand)
         {
+            string x = "", y = "", n = "";
             string command = rawCommand.Trim();
             if (command == "") return false;
             else
             {
                 string[] cwords = command.Split(' ');
-                if (cwords.Length < 2) return false;
-                if (cwords[1] == expected && cwords[2] == expected2) return true;
-            }
-            return false;
-        }
+                if (cwords.Length < 3) return false;
+                x = cwords[0];
+                y = cwords[1];
+                n = cwords[2];
+                if (cwords[0] == "aktivera")
+                {
+                    string task = $"{cwords[1]} {cwords[2]}";
+                    Todo.ChangeStatusOnItem(task, 1);
+                }
+                if (cwords[0] == "klar")
+                {
+                    string task = $"{cwords[1]} {cwords[2]}";
+                    Todo.ChangeStatusOnItem(task, 3);
+                }
+                if (cwords[0] == "vänta")
+                {
+                    string task = $"{cwords[1]} {cwords[2]}";
+                    Todo.ChangeStatusOnItem(task, 2);
+                }
 
+                return true;
+            }
+        }
     }
 }

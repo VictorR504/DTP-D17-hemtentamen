@@ -111,9 +111,12 @@
         public static void PrintHelp()
         {
             Console.WriteLine("Kommandon:");
-            Console.WriteLine("hjälp    lista denna hjälp");
-            Console.WriteLine("lista    lista att-göra-listan");
-            Console.WriteLine("sluta    spara att-göra-listan och sluta");
+            Console.WriteLine("hjälp         lista denna hjälp");
+            Console.WriteLine("ny            skapar en ny uppgift i att-göra-listan");
+            Console.WriteLine("lista         lista att-göra-listan (Aktiva prio 1 uppgifter) ");
+            Console.WriteLine("lista allt    lista att-göra-listan (Aktiva uppgifter) ");
+            Console.WriteLine("beskrivning   lista att-göra-listan med beskrivning (Akiva prio 1 uppgifter ");
+            Console.WriteLine("sluta         spara att-göra-listan och sluta");
         }
         public static void NewItem()
         {
@@ -134,7 +137,6 @@
         public static void Main(string[] args)
         {
             Console.WriteLine("Välkommen till att-göra-listan!");
-            Todo.ReadListFromFile();
             Todo.PrintHelp();
             string command;
             do
@@ -143,6 +145,10 @@
                 if (MyIO.Equals(command, "hjälp"))
                 {
                     Todo.PrintHelp();
+                }
+                else if (MyIO.Equals(command, "ladda"))
+                {
+                    Todo.ReadListFromFile();
                 }
                 else if (MyIO.Equals(command, "sluta"))
                 {

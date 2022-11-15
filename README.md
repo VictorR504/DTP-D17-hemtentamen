@@ -10,14 +10,14 @@ PRIO 1
 
 Skapa nya funktioner
 
-- Metod ny = Skapar en ny uppgift, användaren ska ange status, priority, task, taskDescription Klar!!!
-Metoden lägger till ny uppift i todi.lis
+- Metod ny = Skapar en ny uppgift, användaren ska ange status, priority, task, taskDescription 
+Metoden lägger till ny uppift i todi.lis KLAR!!!
 
 - Metod spara = Anropas detta kommando så sparas nuvarande Att-göra-lista i aktiv .lis fil
 OBS. se till att det blir rätt format!!! spara en kopia av todo.lis
 
 - Metod ladda = Gör om så att istället för att Att-göra-lista laddas automatiskt, skapa en 
-metod som anropas via kommando promten(ladda)!!
+metod som anropas via kommando promten(ladda)!!  KLAR!!!!
 
 - Metod aktivera, klara, vänta / uppgift =  Gör en metod som kan ändra status på uppgifterna som finns 
 i Todo.lis

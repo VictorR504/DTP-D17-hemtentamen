@@ -1,10 +1,25 @@
-# dtp15_todolist
+# Att-göra-lista för DTP15-todolist
 
-[**DTP inlämningsuppgift 2**](http://moodle.molk.se/mod/assign/view.php?id=3775). 
+PRIO 1 
+Ändra metoden för att visa lista, lista allt
+-Ändra bool berbose syfte, att den visar akriva istället för beskrivning
 
-Innan du kör programmet måste du kopiera (eller flytta) ner filen todo.lis till
-filkatalogen `\bin\Debug\net6.0`, i Git Bash:
+Ändra så att nuvarande lista allt ==> blir beskrivning
+- Behöver nog bara ändra hur utskrivningen anropas för att lösa denna  
 
-      $ cp todo.lis \bin\Debug\net6.0
+Skapa nya funktioner
 
-(eller mv).
+- Metod ny = 
+
+- Metod spara = 
+
+- Metod ladda = 
+
+- Metod aktivera / uppgift = 
+
+- Metod klara / uppgift =
+
+- Metod vänta / uppgift
+
+Prio 2
+

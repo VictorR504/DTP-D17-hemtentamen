@@ -38,6 +38,7 @@
                 task = field[2];
                 taskDescription = field[3];
             }
+            //Ändra utskrivning av lista här.......
             public void Print(bool verbose = false)
             {
                 string statusString = StatusToString(status);
@@ -102,6 +103,7 @@
             Console.WriteLine("sluta    spara att-göra-listan och sluta");
         }
     }
+    // Lägg till else if satser för nya funktioner....ENKELT
     class MainClass
     {
         public static void Main(string[] args)
@@ -137,6 +139,7 @@
             while (true);
         }
     }
+    // Denna behöver vi inte röra under Tentan....
     class MyIO
     {
         static public string ReadCommand(string prompt)

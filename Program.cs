@@ -111,14 +111,18 @@
         public static void PrintHelp()
         {
             Console.WriteLine("Kommandon:");
-            Console.WriteLine("hjälp         lista denna hjälp");
-            Console.WriteLine("ladda         laddar att-göra-listan");
-            Console.WriteLine("spara         sparar att-göra-listan till laddad fil");
-            Console.WriteLine("ny            skapar en ny uppgift i att-göra-listan");
-            Console.WriteLine("lista         lista att-göra-listan (Aktiva prio 1 uppgifter) ");
-            Console.WriteLine("lista allt    lista att-göra-listan (Aktiva uppgifter) ");
-            Console.WriteLine("beskrivning   lista att-göra-listan med beskrivning (Akiva prio 1 uppgifter) ");
-            Console.WriteLine("sluta         spara att-göra-listan och sluta");
+            Console.WriteLine("hjälp          lista denna hjälp");
+            Console.WriteLine("ladda          laddar att-göra-listan");
+            Console.WriteLine("spara          sparar att-göra-listan till laddad fil");
+            Console.WriteLine("ny             skapar en ny uppgift i att-göra-listan");
+            Console.WriteLine("lista          lista att-göra-listan (Aktiva prio 1 uppgifter) ");
+            Console.WriteLine("lista allt     lista att-göra-listan (Aktiva uppgifter) ");
+            Console.WriteLine("beskriv        lista att-göra-listan med beskrivning (Akiva prio 1 uppgifter) ");
+            Console.WriteLine("beskriv allt   lista att-göra-listan med beskrivning (Akiva prio 1 uppgifter) ");
+            Console.WriteLine("aktivera       ändrar status på önskad uppgift ");
+            Console.WriteLine("vänta          ändrar status på önskad uppgift ");
+            Console.WriteLine("klar           ändrar status på önskad uppgift");
+            Console.WriteLine("sluta          spara att-göra-listan och sluta");
         }
         public static void NewItem()
         {
@@ -146,14 +150,13 @@
             }
             Console.WriteLine($"Saving list to file {todoFileName}....");
         }
-        public static void ChangeStatusOnItem(string x)
+        public static void ChangeStatusOnItem(string x, int y)
         {
             foreach(TodoItem item in list)
             {
                 if (item.task == x)
                 {
-                    item.status = Active;
-                    Console.WriteLine(item.status);
+                    item.status = y;
                 }
             }
         }
@@ -184,9 +187,9 @@
                 else if (MyIO.Equals(command, "lista"))
                 {
                     if (MyIO.HasArgument(command, "allt"))
-                        Todo.PrintTodoList(2,verbose: false);
+                        Todo.PrintTodoList(2, verbose: false);
                     else
-                        Todo.PrintTodoList(1,verbose: false);
+                        Todo.PrintTodoList(1, verbose: false);
                 }
                 else if (MyIO.Equals(command, "beskriv"))
                 {
@@ -201,11 +204,22 @@
                 }
                 else if (MyIO.Equals(command, "aktivera"))
                 {
-                    //if (MyIO.HasArgument(command, x ))
-                    //{
-                    //    Todo.ChangeStatusOnItem(command);
-                    //}
+                    Console.Write("Ange vilken uppgift som ska aktiveras:>");
+                    string input = Console.ReadLine();
+                    Todo.ChangeStatusOnItem(input,1);
                     
+                }
+                else if (MyIO.Equals(command, "klar"))
+                {
+                    Console.Write("Ange vilken uppgift som ska aktiveras:>");
+                    string input = Console.ReadLine();
+                    Todo.ChangeStatusOnItem(input, 3);
+                }
+                else if (MyIO.Equals(command, "vänta"))
+                {
+                    Console.Write("Ange vilken uppgift som ska aktiveras:>");
+                    string input = Console.ReadLine();
+                    Todo.ChangeStatusOnItem(input, 2);
                 }
                 else if (MyIO.Equals(command, "spara"))
                 {
@@ -250,5 +264,18 @@
             }
             return false;
         }
+        static public bool HasTwoArgument(string rawCommand, string expected, string expected2)
+        {
+            string command = rawCommand.Trim();
+            if (command == "") return false;
+            else
+            {
+                string[] cwords = command.Split(' ');
+                if (cwords.Length < 2) return false;
+                if (cwords[1] == expected && cwords[2] == expected2) return true;
+            }
+            return false;
+        }
+
     }
 }

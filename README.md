@@ -10,7 +10,7 @@ PRIO 1
 
 Skapa nya funktioner
 
-- Metod ny = Skapar en ny uppgift, användaren ska ange status, priority, task, taskDescription
+- Metod ny = Skapar en ny uppgift, användaren ska ange status, priority, task, taskDescription Klar!!!
 Metoden lägger till ny uppift i todi.lis
 
 - Metod spara = Anropas detta kommando så sparas nuvarande Att-göra-lista i aktiv .lis fil

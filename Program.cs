@@ -47,6 +47,7 @@
                 else
                     Console.WriteLine();
             }
+   
         }
         public static void ReadListFromFile()
         {
@@ -114,8 +115,20 @@
             Console.WriteLine("lista    lista att-göra-listan");
             Console.WriteLine("sluta    spara att-göra-listan och sluta");
         }
+        public static void NewItem()
+        {
+            string s = "1";
+            Console.Write("Uppgiftens namn:> ");
+            string namn = Console.ReadLine();
+            Console.Write("Prioritet:> ");
+            int prioritet = Int32.Parse(Console.ReadLine());
+            Console.Write("Beskrivning:> ");
+            string Beskrivning = Console.ReadLine();
+            string line = $"{s}|{prioritet}|{namn}|{Beskrivning}";
+            TodoItem item = new TodoItem(line);
+            list.Add(item);
+        }
     }
-    // Lägg till else if satser för nya funktioner....ENKELT
     class MainClass
     {
         public static void Main(string[] args)
@@ -146,6 +159,10 @@
                 else if (MyIO.Equals(command, "beskrivning"))
                 {
                     Todo.PrintTodoList(1, verbose: true);
+                }
+                else if (MyIO.Equals(command, "ny"))
+                {
+                    Todo.NewItem();
                 }
                 else
                 {

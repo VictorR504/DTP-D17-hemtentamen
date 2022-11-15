@@ -38,7 +38,6 @@
                 task = field[2];
                 taskDescription = field[3];
             }
-            //Ändra utskrivning av lista här.......
             public void Print(bool verbose = false)
             {
                 string statusString = StatusToString(status);
@@ -86,14 +85,27 @@
         {
             PrintHeadOrFoot(head: false, verbose);
         }
-        public static void PrintTodoList(bool verbose = false)
+        public static void PrintTodoList(int x,bool verbose = false )
         {
-            PrintHead(verbose);
-            foreach (TodoItem item in list)
+            if (x == 1)
             {
-                item.Print(verbose);
+                PrintHead(verbose);
+                foreach (TodoItem item in list)
+                {
+                    if (item.status == 1)
+                        item.Print(verbose);
+                }
+                PrintFoot(verbose);
             }
-            PrintFoot(verbose);
+            else if (x == 2)
+            {
+                PrintHead(verbose);
+                foreach (TodoItem item in list)
+                {
+                    item.Print(verbose);
+                }
+                PrintFoot(verbose);
+            }
         }
         public static void PrintHelp()
         {
@@ -127,9 +139,9 @@
                 else if (MyIO.Equals(command, "lista"))
                 {
                     if (MyIO.HasArgument(command, "allt"))
-                        Todo.PrintTodoList(verbose: true);
+                        Todo.PrintTodoList(2,verbose: false);
                     else
-                        Todo.PrintTodoList(verbose: false);
+                        Todo.PrintTodoList(1,verbose: false);
                 }
                 else
                 {

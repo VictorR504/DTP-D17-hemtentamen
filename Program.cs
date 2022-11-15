@@ -112,10 +112,12 @@
         {
             Console.WriteLine("Kommandon:");
             Console.WriteLine("hjälp         lista denna hjälp");
+            Console.WriteLine("ladda         laddar att-göra-listan");
+            Console.WriteLine("spara         sparar att-göra-listan till laddad fil");
             Console.WriteLine("ny            skapar en ny uppgift i att-göra-listan");
             Console.WriteLine("lista         lista att-göra-listan (Aktiva prio 1 uppgifter) ");
             Console.WriteLine("lista allt    lista att-göra-listan (Aktiva uppgifter) ");
-            Console.WriteLine("beskrivning   lista att-göra-listan med beskrivning (Akiva prio 1 uppgifter ");
+            Console.WriteLine("beskrivning   lista att-göra-listan med beskrivning (Akiva prio 1 uppgifter) ");
             Console.WriteLine("sluta         spara att-göra-listan och sluta");
         }
         public static void NewItem()
@@ -130,6 +132,30 @@
             string line = $"{s}|{prioritet}|{namn}|{Beskrivning}";
             TodoItem item = new TodoItem(line);
             list.Add(item);
+        }
+        public static void SaveListToFile()
+        {
+            string todoFileName = "todoCopy.lis";
+            using (StreamWriter outfile = new StreamWriter(todoFileName))
+            {
+                foreach (TodoItem item in list)
+                {
+                    if (item != null)
+                        outfile.WriteLine($"{item.status}|{item.priority}|{item.task}|{item.taskDescription}");
+                }
+            }
+            Console.WriteLine($"Saving list to file {todoFileName}....");
+        }
+        public static void ChangeStatusOnItem(string x)
+        {
+            foreach(TodoItem item in list)
+            {
+                if (item.task == x)
+                {
+                    item.status = Active;
+                    Console.WriteLine(item.status);
+                }
+            }
         }
     }
     class MainClass
@@ -162,13 +188,28 @@
                     else
                         Todo.PrintTodoList(1,verbose: false);
                 }
-                else if (MyIO.Equals(command, "beskrivning"))
+                else if (MyIO.Equals(command, "beskriv"))
                 {
-                    Todo.PrintTodoList(1, verbose: true);
+                    if (MyIO.HasArgument(command, "allt"))
+                        Todo.PrintTodoList(2, verbose: true);
+                    else
+                        Todo.PrintTodoList(1, verbose: true);
                 }
                 else if (MyIO.Equals(command, "ny"))
                 {
                     Todo.NewItem();
+                }
+                else if (MyIO.Equals(command, "aktivera"))
+                {
+                    //if (MyIO.HasArgument(command, x ))
+                    //{
+                    //    Todo.ChangeStatusOnItem(command);
+                    //}
+                    
+                }
+                else if (MyIO.Equals(command, "spara"))
+                {
+                    Todo.SaveListToFile();
                 }
                 else
                 {

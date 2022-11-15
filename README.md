@@ -31,3 +31,4 @@ Prio 2
 - Metod kopiera / uppgift = redigera en uppgift med namnet /uppgift/ till namnet
 
 - Metod beskriv / allt = lista alla uppgifter (oavsett status), status, prioritet, namn och beskrivning
+Lägg till ett HasArgument "allt" och kalla på printmetod...KLAR!!!

@@ -31,7 +31,8 @@ Implementerad och KLAR!!!
 - Metod ladda / fil = som metoden spara / fil fast man laddar upp vald att-göra-lista istället...
 Implementerad och KLAR!!!
 
-- Metod redigera / uppgift = redigera en uppgift med namnet /uppgift/ till namnet NYI
+- Metod lista / klara = lista alla avklarade uppgifter med kommando lista klara....
+Implementerad och KLAR!!!
 
 - Metod beskriv / allt = lista alla uppgifter (oavsett status), status, prioritet, namn och beskrivning
 Lägg till ett HasArgument "allt" och kalla på printmetod...KLAR!!!

@@ -2,6 +2,7 @@
 {
     public class Todo
     {
+        public static string latestLoadFile;
         public static List<TodoItem> list = new List<TodoItem>();
 
         public const int Active = 1;
@@ -90,8 +91,18 @@
                 }
                 PrintFoot(verbose);
             }
+            else if (x == 3)
+            {
+                PrintHead(verbose);
+                foreach (TodoItem item in list)
+                {
+                    if (item.status == 3)
+                        item.Print(verbose);
+                }
+                PrintFoot(verbose);
+            }
         }
-        public static void NewItem()
+        public static void NewTask()
         {
             string s = "1";
             Console.Write("Uppgiftens namn:> ");
@@ -119,6 +130,8 @@
         }
         public static void ReadListFromFile(string x)
         {
+            
+            latestLoadFile = x;
             string todoFileName = x;
             Console.Write($"Läser från fil {todoFileName} ... ");
             StreamReader sr = new StreamReader(todoFileName);
@@ -218,6 +231,7 @@
                         Todo.PrintHelp();
                     else if (MyIO.Equals(command, "sluta"))
                     {
+                        SaveListToFile(Todo.latestLoadFile);
                         Console.WriteLine("Hej då!");
                         break;
                     }
@@ -225,6 +239,8 @@
                     {
                         if (MyIO.HasArgument(command, "allt"))
                             Todo.PrintTodoList(2, verbose: false);
+                        else if (MyIO.HasArgument(command, "klara"))
+                            Todo.PrintTodoList(3, verbose: false);
                         else
                             Todo.PrintTodoList(1, verbose: false);
                     }
@@ -236,7 +252,7 @@
                             Todo.PrintTodoList(1, verbose: true);
                     }
                     else if (MyIO.Equals(command, "ny"))
-                        Todo.NewItem();
+                        Todo.NewTask();
                     else if (MyIO.Equals(command, "aktivera") || (MyIO.Equals(command, "klar") || (MyIO.Equals(command, "vänta"))))
                         Todo.SetStatus(command);
                     else if (MyIO.Equals(command, "spara") || (MyIO.Equals(command, "ladda")))

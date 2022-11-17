@@ -49,23 +49,6 @@
             }
 
         }
-        public static void ReadListFromFile()
-        {
-            string todoFileName = "todo.lis";
-            Console.Write($"Läser från fil {todoFileName} ... ");
-            StreamReader sr = new StreamReader(todoFileName);
-            int numRead = 0;
-
-            string line;
-            while ((line = sr.ReadLine()) != null)
-            {
-                TodoItem item = new TodoItem(line);
-                list.Add(item);
-                numRead++;
-            }
-            sr.Close();
-            Console.WriteLine($"Läste {numRead} rader.");
-        }
         private static void PrintHeadOrFoot(bool head, bool verbose)
         {
             if (head)
@@ -108,22 +91,6 @@
                 PrintFoot(verbose);
             }
         }
-        public static void PrintHelp()
-        {
-            Console.WriteLine("Kommandon:");
-            Console.WriteLine("hjälp              lista denna hjälp");
-            Console.WriteLine("ladda              laddar att-göra-listan");
-            Console.WriteLine("spara              sparar att-göra-listan till laddad fil");
-            Console.WriteLine("ny                 skapar en ny uppgift i att-göra-listan");
-            Console.WriteLine("lista              lista att-göra-listan (Aktiva prio 1 uppgifter) ");
-            Console.WriteLine("lista /allt        lista att-göra-listan (Aktiva uppgifter) ");
-            Console.WriteLine("beskriv            lista att-göra-listan med beskrivning (Akiva prio 1 uppgifter) ");
-            Console.WriteLine("beskriv /allt      lista att-göra-listan med beskrivning (Akiva prio 1 uppgifter) ");
-            Console.WriteLine("aktivera /uppgift  ändrar status på önskad uppgift(uppgift = namn)");
-            Console.WriteLine("vänta /uppgift     ändrar status på önskad uppgift(uppgift = namn) ");
-            Console.WriteLine("klar /uppgift      ändrar status på önskad uppgift(uppgift = namn)");
-            Console.WriteLine("sluta              spara att-göra-listan och sluta");
-        }
         public static void NewItem()
         {
             string s = "1";
@@ -149,6 +116,37 @@
                 }
             }
             Console.WriteLine($"Saving list to file {todoFileName}....");
+        }
+        public static void ReadListFromFile(string x)
+        {
+            string todoFileName = x;
+            Console.Write($"Läser från fil {todoFileName} ... ");
+            StreamReader sr = new StreamReader(todoFileName);
+            int numRead = 0;
+
+            string line;
+            while ((line = sr.ReadLine()) != null)
+            {
+                TodoItem item = new TodoItem(line);
+                list.Add(item);
+                numRead++;
+            }
+            sr.Close();
+            Console.WriteLine($"Läste {numRead} rader.");
+        }
+        public static void SaveOrLoadFile(string x)
+        {
+            string[] command = x.Split(' ');
+            if (command[0] == "spara")
+                if (command.Length > 1)
+                    SaveListToFile(command[1]);
+                else
+                    SaveListToFile("todoCopy.lis");
+            if (command[0] == "ladda")
+                if (command.Length > 1)
+                    ReadListFromFile(command[1]);
+                else
+                    ReadListFromFile("todo.lis");
         }
         public static void ChangeStatusOnItem(string x, int y)
         {
@@ -186,11 +184,31 @@
                 return true;
             }
         }
+        public static void PrintHelp()
+        {
+            Console.Clear();
+            Console.WriteLine("Välkommen till att-göra-listan!");
+            Console.WriteLine("Kommandon:");
+            Console.WriteLine("hjälp               lista denna hjälp");
+            Console.WriteLine("ladda               laddar att-göra-listan todo.lis");
+            Console.WriteLine("ladda /filnamn.txt  laddar en specefik att-göra-lista");
+            Console.WriteLine("spara /filnamn.txt  sparar ner till en specifik att-göra-lista");
+            Console.WriteLine("spara               sparar att-göra-listan till laddad fil");
+            Console.WriteLine("ny                  skapar en ny uppgift i att-göra-listan");
+            Console.WriteLine("redigera            Ändra redan skapad uppgift i att-göra-listan");
+            Console.WriteLine("lista               lista att-göra-listan (Aktiva prio 1 uppgifter) ");
+            Console.WriteLine("lista /allt         lista att-göra-listan (Aktiva uppgifter) ");
+            Console.WriteLine("beskriv             lista att-göra-listan med beskrivning (Akiva prio 1 uppgifter) ");
+            Console.WriteLine("beskriv /allt       lista att-göra-listan med beskrivning (Akiva prio 1 uppgifter) ");
+            Console.WriteLine("aktivera /uppgift   ändrar status på önskad uppgift(uppgift = namn)");
+            Console.WriteLine("vänta /uppgift      ändrar status på önskad uppgift(uppgift = namn) ");
+            Console.WriteLine("klar /uppgift       ändrar status på önskad uppgift(uppgift = namn)");
+            Console.WriteLine("sluta               spara att-göra-listan och sluta");
+        }
         class MainClass
         {
             public static void Main(string[] args)
             {
-                Console.WriteLine("Välkommen till att-göra-listan!");
                 Todo.PrintHelp();
                 string command;
                 do
@@ -198,8 +216,6 @@
                     command = MyIO.ReadCommand("> ");
                     if (MyIO.Equals(command, "hjälp"))
                         Todo.PrintHelp();
-                    else if (MyIO.Equals(command, "ladda"))
-                        Todo.ReadListFromFile();
                     else if (MyIO.Equals(command, "sluta"))
                     {
                         Console.WriteLine("Hej då!");
@@ -223,8 +239,8 @@
                         Todo.NewItem();
                     else if (MyIO.Equals(command, "aktivera") || (MyIO.Equals(command, "klar") || (MyIO.Equals(command, "vänta"))))
                         Todo.SetStatus(command);
-                    else if (MyIO.Equals(command, "spara"))
-                        Todo.SaveListToFile("todoCopy.lis");
+                    else if (MyIO.Equals(command, "spara") || (MyIO.Equals(command, "ladda")))
+                        Todo.SaveOrLoadFile(command);
                     else
                         Console.WriteLine($"Okänt kommando: {command}");
                 }

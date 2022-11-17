@@ -24,11 +24,21 @@ i Todo.lis....KLAR!!!!
 
 Prio 2
 
-- Metod ny / uppgift = skapa en ny uppgift med namnet /uppgift/ NYI
+- Metod spara / fil = gör så att man kan spara att-göra-listan genom att anropa spara filnamnet.txt
+...NYI
 
-- Metod redigera / uppgift = redigera en uppgift med namnet /uppgift/ NYI
+- Metod ladda / fil = som metoden spara / fil fast man laddar upp vald att-göra-lista istället...NYI
 
-- Metod kopiera / uppgift = redigera en uppgift med namnet /uppgift/ till namnet NYI
+- Metod redigera / uppgift = redigera en uppgift med namnet /uppgift/ till namnet NYI
 
 - Metod beskriv / allt = lista alla uppgifter (oavsett status), status, prioritet, namn och beskrivning
 Lägg till ett HasArgument "allt" och kalla på printmetod...KLAR!!!
+
+- Refaktorera, repeterar mig nån gång i koden som bör åtgärdas genom en metod istället, kolla även 
+igenom koden och dubbelkolla metodnamn och variabelnamn så det följer en given tråd och inte
+heter allt från "x" till "min farmors gammla katt()"
+
+
+Prio 3
+
+Övrig att-göra kommer ligga i en fil som programmet får läsa in genom kommando "ladda"!!!NYI 

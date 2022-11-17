@@ -47,7 +47,7 @@
                 else
                     Console.WriteLine();
             }
-   
+
         }
         public static void ReadListFromFile()
         {
@@ -86,7 +86,7 @@
         {
             PrintHeadOrFoot(head: false, verbose);
         }
-        public static void PrintTodoList(int x,bool verbose = false )
+        public static void PrintTodoList(int x, bool verbose = false)
         {
             if (x == 1)
             {
@@ -137,9 +137,9 @@
             TodoItem item = new TodoItem(line);
             list.Add(item);
         }
-        public static void SaveListToFile()
+        public static void SaveListToFile(string x)
         {
-            string todoFileName = "todoCopy.lis";
+            string todoFileName = x;
             using (StreamWriter outfile = new StreamWriter(todoFileName))
             {
                 foreach (TodoItem item in list)
@@ -152,7 +152,7 @@
         }
         public static void ChangeStatusOnItem(string x, int y)
         {
-            foreach(TodoItem item in list)
+            foreach (TodoItem item in list)
             {
                 if (item.task == x)
                 {
@@ -160,120 +160,111 @@
                 }
             }
         }
-    }
-    class MainClass
-    {
-        public static void Main(string[] args)
+        static public bool SetStatus(string rawCommand)
         {
-            Console.WriteLine("Välkommen till att-göra-listan!");
-            Todo.PrintHelp();
-            string command;
-            do
-            {
-                command = MyIO.ReadCommand("> ");
-                if (MyIO.Equals(command, "hjälp"))
-                    Todo.PrintHelp();
-                else if (MyIO.Equals(command, "ladda"))
-                    Todo.ReadListFromFile();
-                else if (MyIO.Equals(command, "sluta"))
-                {
-                    Console.WriteLine("Hej då!");
-                    break;
-                }
-                else if (MyIO.Equals(command, "lista"))
-                {
-                    if (MyIO.HasArgument(command, "allt"))
-                        Todo.PrintTodoList(2, verbose: false);
-                    else
-                        Todo.PrintTodoList(1, verbose: false);
-                }
-                else if (MyIO.Equals(command, "beskriv"))
-                {
-                    if (MyIO.HasArgument(command, "allt"))
-                        Todo.PrintTodoList(2, verbose: true);
-                    else
-                        Todo.PrintTodoList(1, verbose: true);
-                }
-                else if (MyIO.Equals(command, "ny"))
-                    Todo.NewItem();
-                else if (MyIO.Equals(command, "aktivera"))
-                    MyIO.ActiveWatingReady(command);
-                else if (MyIO.Equals(command, "klar"))
-                    MyIO.ActiveWatingReady(command);
-                else if (MyIO.Equals(command, "vänta"))
-                    MyIO.ActiveWatingReady(command);
-                else if (MyIO.Equals(command, "spara"))
-                {
-                    Todo.SaveListToFile();
-                }
-                else
-                {
-                    Console.WriteLine($"Okänt kommando: {command}");
-                }
-            }
-            while (true);
-        }
-    }
-    class MyIO
-    {
-        static public string ReadCommand(string prompt)
-        {
-            Console.Write(prompt);
-            return Console.ReadLine();
-        }
-        static public bool Equals(string rawCommand, string expected)
-        {
-            string command = rawCommand.Trim();
-            if (command == "") return false;
-            else
-            {
-                string[] cwords = command.Split(' ');
-                if (cwords[0] == expected) return true;
-            }
-            return false;
-        }
-        static public bool HasArgument(string rawCommand, string expected)
-        {
-            string command = rawCommand.Trim();
-            if (command == "") return false;
-            else
-            {
-                string[] cwords = command.Split(' ');
-                if (cwords.Length < 2) return false;
-                if (cwords[1] == expected) return true;
-            }
-            return false;
-        }
-        static public bool ActiveWatingReady(string rawCommand)
-        {
-            string x = "", y = "", n = "";
             string command = rawCommand.Trim();
             if (command == "") return false;
             else
             {
                 string[] cwords = command.Split(' ');
                 if (cwords.Length < 3) return false;
-                x = cwords[0];
-                y = cwords[1];
-                n = cwords[2];
                 if (cwords[0] == "aktivera")
                 {
                     string task = $"{cwords[1]} {cwords[2]}";
-                    Todo.ChangeStatusOnItem(task, 1);
+                    ChangeStatusOnItem(task, 1);
                 }
                 if (cwords[0] == "klar")
                 {
                     string task = $"{cwords[1]} {cwords[2]}";
-                    Todo.ChangeStatusOnItem(task, 3);
+                    ChangeStatusOnItem(task, 3);
                 }
                 if (cwords[0] == "vänta")
                 {
                     string task = $"{cwords[1]} {cwords[2]}";
-                    Todo.ChangeStatusOnItem(task, 2);
+                    ChangeStatusOnItem(task, 2);
                 }
-
                 return true;
+            }
+        }
+        class MainClass
+        {
+            public static void Main(string[] args)
+            {
+                Console.WriteLine("Välkommen till att-göra-listan!");
+                Todo.PrintHelp();
+                string command;
+                do
+                {
+                    command = MyIO.ReadCommand("> ");
+                    if (MyIO.Equals(command, "hjälp"))
+                        Todo.PrintHelp();
+                    else if (MyIO.Equals(command, "ladda"))
+                        Todo.ReadListFromFile();
+                    else if (MyIO.Equals(command, "sluta"))
+                    {
+                        Console.WriteLine("Hej då!");
+                        break;
+                    }
+                    else if (MyIO.Equals(command, "lista"))
+                    {
+                        if (MyIO.HasArgument(command, "allt"))
+                            Todo.PrintTodoList(2, verbose: false);
+                        else
+                            Todo.PrintTodoList(1, verbose: false);
+                    }
+                    else if (MyIO.Equals(command, "beskriv"))
+                    {
+                        if (MyIO.HasArgument(command, "allt"))
+                            Todo.PrintTodoList(2, verbose: true);
+                        else
+                            Todo.PrintTodoList(1, verbose: true);
+                    }
+                    else if (MyIO.Equals(command, "ny"))
+                        Todo.NewItem();
+                    else if (MyIO.Equals(command, "aktivera") || (MyIO.Equals(command, "klar") || (MyIO.Equals(command, "vänta"))))
+                        Todo.SetStatus(command);
+                    else if (MyIO.Equals(command, "spara"))
+                        Todo.SaveListToFile("todoCopy.lis");
+                    else
+                        Console.WriteLine($"Okänt kommando: {command}");
+                }
+                while (true);
+            }
+        }
+        class MyIO
+        {
+            static public string ReadCommand(string prompt)
+            {
+                Console.Write(prompt);
+                return Console.ReadLine();
+            }
+            static public bool Equals(string rawCommand, string expected)
+            {
+                string command = rawCommand.Trim();
+                if (command == "") return false;
+                else
+                {
+                    string[] cwords = command.Split(' ');
+                    if (cwords[0] == expected) return true;
+                }
+                return false;
+            }
+            static public bool HasArgument(string rawCommand, string expected)
+            {
+                string command = rawCommand.Trim();
+                if (command == "") return false;
+                else
+                {
+                    string[] cwords = command.Split(' ');
+                    if (cwords.Length < 2) return false;
+                    if (cwords[1] == expected) return true;
+                }
+                return false;
             }
         }
     }
 }
+     
+
+
+

@@ -72,17 +72,17 @@
         }
         public static void PrintTodoList(int x, bool verbose = false)
         {
-            if (x == 1)
+            if (x == 1 || x == 3 || x == 2)
             {
                 PrintHead(verbose);
                 foreach (TodoItem item in list)
                 {
-                    if (item.status == 1)
+                    if (item.status == x)
                         item.Print(verbose);
                 }
                 PrintFoot(verbose);
             }
-            else if (x == 2)
+            else if (x == 4)
             {
                 PrintHead(verbose);
                 foreach (TodoItem item in list)
@@ -91,33 +91,35 @@
                 }
                 PrintFoot(verbose);
             }
-            else if (x == 3)
-            {
-                PrintHead(verbose);
-                foreach (TodoItem item in list)
-                {
-                    if (item.status == 3)
-                        item.Print(verbose);
-                }
-                PrintFoot(verbose);
-            }
+
         }
         public static void NewTask()
         {
-            string s = "1";
-            Console.Write("Uppgiftens namn:> ");
-            string namn = Console.ReadLine();
-            Console.Write("Prioritet:> ");
-            int prioritet = Int32.Parse(Console.ReadLine());
-            Console.Write("Beskrivning:> ");
-            string Beskrivning = Console.ReadLine();
-            string line = $"{s}|{prioritet}|{namn}|{Beskrivning}";
+            int prioritet = 0;
+            string namn = MyIO.ReadCommand("Uppgiftens namn(Ange två ord):> ");
+            while (prioritet == 0)
+            {
+                try
+                {
+                    prioritet = Int32.Parse(MyIO.ReadCommand("Prioritet:> "));
+                }
+                catch (FormatException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+            string Beskrivning = MyIO.ReadCommand("Beskrivning:> ");
+            string line = $"1|{prioritet}|{namn}|{Beskrivning}";
             TodoItem item = new TodoItem(line);
             list.Add(item);
         }
         public static void SaveListToFile(string x)
         {
             string todoFileName = x;
+            if (!File.Exists(todoFileName))
+            {
+                todoFileName = MyIO.ReadCommand("Ange ett filnamn:> ");
+            }
             using (StreamWriter outfile = new StreamWriter(todoFileName))
             {
                 foreach (TodoItem item in list)
@@ -147,6 +149,7 @@
             sr.Close();
             Console.WriteLine($"Läste {numRead} rader.");
         }
+       
         public static void SaveOrLoadFile(string x)
         {
             string[] command = x.Split(' ');
@@ -154,7 +157,7 @@
                 if (command.Length > 1)
                     SaveListToFile(command[1]);
                 else
-                    SaveListToFile("todoCopy.lis");
+                    SaveListToFile("todo.lis");
             if (command[0] == "ladda")
                 if (command.Length > 1)
                     ReadListFromFile(command[1]);
@@ -171,27 +174,26 @@
                 }
             }
         }
+
         static public bool SetStatus(string rawCommand)
         {
             string command = rawCommand.Trim();
             if (command == "") return false;
             else
             {
-                string[] cwords = command.Split(' ');
+                string[] cwords = command.Split();
+                string task = $"{cwords[1]} {cwords[2]}";
                 if (cwords.Length < 3) return false;
                 if (cwords[0] == "aktivera")
                 {
-                    string task = $"{cwords[1]} {cwords[2]}";
                     ChangeStatusOnItem(task, 1);
                 }
                 if (cwords[0] == "klar")
                 {
-                    string task = $"{cwords[1]} {cwords[2]}";
                     ChangeStatusOnItem(task, 3);
                 }
                 if (cwords[0] == "vänta")
                 {
-                    string task = $"{cwords[1]} {cwords[2]}";
                     ChangeStatusOnItem(task, 2);
                 }
                 return true;
@@ -208,7 +210,7 @@
             Console.WriteLine("spara /filnamn.txt  sparar ner till en specifik att-göra-lista");
             Console.WriteLine("spara               sparar att-göra-listan till laddad fil");
             Console.WriteLine("ny                  skapar en ny uppgift i att-göra-listan");
-            Console.WriteLine("redigera            Ändra redan skapad uppgift i att-göra-listan");
+            Console.WriteLine("redigera            Ändra redan skapad uppgift i att-göra-listan  || NYI  ||");
             Console.WriteLine("lista               lista att-göra-listan (Aktiva prio 1 uppgifter) ");
             Console.WriteLine("lista /allt         lista att-göra-listan (Aktiva uppgifter) ");
             Console.WriteLine("beskriv             lista att-göra-listan med beskrivning (Akiva prio 1 uppgifter) ");
@@ -238,16 +240,18 @@
                     else if (MyIO.Equals(command, "lista"))
                     {
                         if (MyIO.HasArgument(command, "allt"))
-                            Todo.PrintTodoList(2, verbose: false);
+                            Todo.PrintTodoList(4, verbose: false);
                         else if (MyIO.HasArgument(command, "klara"))
                             Todo.PrintTodoList(3, verbose: false);
+                        else if (MyIO.HasArgument(command, "vänta"))
+                            Todo.PrintTodoList(2, verbose: false);
                         else
                             Todo.PrintTodoList(1, verbose: false);
                     }
                     else if (MyIO.Equals(command, "beskriv"))
                     {
                         if (MyIO.HasArgument(command, "allt"))
-                            Todo.PrintTodoList(2, verbose: true);
+                            Todo.PrintTodoList(4, verbose: true);
                         else
                             Todo.PrintTodoList(1, verbose: true);
                     }

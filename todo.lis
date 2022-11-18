@@ -1,4 +1,6 @@
-1|1|köpa kaffe|Willys? Billigaste!
-1|1|köpa toapapper|Willys? Extra papper!
-2|3|köpa bordslampa|IKEA art. nr. 905.108.94
-2|2|rensa skrivbordet|NEeeeejjj!
+1|1|felhan Read/SaveFile|krashar ifall angiven fil inte existerar!
+1|1|felhan ny/namn|Gör så att användaren måste ange två ord vid namn!
+2|2|NYI redigera|Fixa så att man kan redigera uppgifter!
+2|3|syntax koll|gå igenom kod, kontrollera efter ologisk namngivning
+2|3|refaktorera mer|gå igenom kod, kontrollera efter repeterad kod
+3|1|felhan ny/prioritet|krashar ifall string angivs vid prioritet!!
